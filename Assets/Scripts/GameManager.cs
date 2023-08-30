@@ -9,10 +9,10 @@ public class GameManager : MonoBehaviour
 {
     //Questions Array
     Question[] _questions = null;
-    public Question[] Preguntas { get { return _questions; } }
+    public Question[] Questions { get { return _questions; } }
 
     //GameEvents
-    //[SerializeField] GameEvents events = null;
+    [SerializeField] GameEvents events = null;
 
     //Timer
     [SerializeField] Animator timerAnimator = null;
@@ -22,9 +22,44 @@ public class GameManager : MonoBehaviour
     private Color colorTimer = Color.white;
     private int parametroTimerStateHash = 0;
 
-    //Answers & questions Control
-    /*private List<AnswersData> ChoosenAnswers = new List<AnswersData>();
-    private List<int> FinishedQuestion = new List<int>();*/
+    //Track responses to each question, each question asked, and the current question.
+    private List<AnswersData> ChoosenAnswers = new List<AnswersData>();
+    private List<int> FinishedQuestion = new List<int>();
     private int actualQuestion = 0;
 
+    //Animations delay
+    private IEnumerator IE_WaitUntillNextRound = null;
+    private IEnumerator IE_StartTimer = null;
+
+    //Check if the game ended
+    private bool AllFinished
+    {
+        get
+        {
+            return (FinishedQuestion.Count < Questions.Length) ? false : true;
+        }
+    }
+
+    //Call the GameEvents
+    void OnEnable()
+    {
+
+    }
+    void OnDisable()
+    {
+        
+    }
+
+    //On Start
+    void Awake()
+    {
+        events.ActualFinalScore = 0;
+    }
+
+    void Start()
+    {
+        //events.StartupHighScore = PlayerPrefs.GetInt();
+        colorTimer = timerText.color;
+
+    }
 }

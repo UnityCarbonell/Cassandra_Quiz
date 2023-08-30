@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Color colorHalfTimer = Color.yellow;
     [SerializeField] Color colorTimerRunningOut = Color.red;
     private Color colorTimer = Color.white;
-    private int parametroTimerStateHash = 0;
+    private int parameterTimerStateHash = 0;
 
     //Track responses to each question, each question asked, and the current question.
     private List<AnswersData> ChoosenAnswers = new List<AnswersData>();
@@ -58,8 +58,168 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //events.StartupHighScore = PlayerPrefs.GetInt();
+        events.StartupHighScore = PlayerPrefs.GetInt(GameUtility.SavePrefKey);
         colorTimer = timerText.color;
+        LoadQuestions();
 
+        parameterTimerStateHash = Animator.StringToHash("StateFounded");
+
+        var seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        UnityEngine.Random.InitState(seed);
+
+        Show();
     }
+
+
+    //Answers
+    public void UpdateAnswers(AnswersData newAnswer)
+    {
+        if (Questions[actualQuestion].AnswerTypeGet == Question.AnswerType.One)
+        {
+            foreach (var answer in ChoosenAnswers)
+            {
+                if (answer != newAnswer)
+                {
+                    answer.Reset();
+                }
+            }
+            ChoosenAnswers.Clear();
+            ChoosenAnswers.Add(newAnswer);
+        }
+        else
+        {
+            bool alreadyChoosen = ChoosenAnswers.Exists(x => x == newAnswer);
+            if (alreadyChoosen)
+            {
+                ChoosenAnswers.Remove(newAnswer);
+            }
+            else
+            {
+                ChoosenAnswers.Add(newAnswer);
+            }
+        }
+    }
+
+    public void DeleteAnswers()
+    {
+        ChoosenAnswers = new List<AnswersData>();
+    }
+
+    bool CompareAnswers()
+    {
+        if (ChoosenAnswers.Count > 0)
+        {
+            List<int> c = Questions[actualQuestion].GetRightAnswer();
+            List<int> p = ChoosenAnswers.Select(x => x.IndexAnswer).ToList();
+
+            var f = c.Except(p).ToList();
+            var s = p.Except(c).ToList();
+
+            return !f.Any() && !s.Any();
+        }
+        return false;
+    }
+
+    bool CheckAnswers()
+    {
+        if (!CompareAnswers())
+        {
+            return false;
+        }
+        return true;
+    }
+     //Show questions in the UI
+    void Show()
+    {
+        DeleteAnswers();
+        var question = RandomQuestion();
+
+        if (events.UpdateQuestionsUI != null)
+        {
+            events.UpdateQuestionsUI(question);
+        }
+        else
+        {
+            Debug.LogWarning("An error occurred while trying to display the information for a new question in the UI. GameEvents.UpdateQuestionsUI is equal to null. We have a problem in the GameManager.Show() method");
+        }
+
+        if (question.UseTimer)
+        {
+        //    UpdateTimer(question.UseTimer);
+        }
+    }
+
+    //Control what happens when you click the Next button
+    public void Accept()
+    {
+        //UpdateTimer(false);
+        bool isRight = CheckAnswers();
+        FinishedQuestion.Add(actualQuestion);
+
+        //UpdateScore()
+
+        if (AllFinished)
+        {
+            SetHighScore();
+        }
+        
+    }
+    //Questions
+    Question RandomQuestion()
+    {
+        var randomIndex = RandomQuestionIndex();
+        actualQuestion = randomIndex;
+
+        return Questions[actualQuestion];
+    }
+
+    int RandomQuestionIndex()
+    {
+        var random = 0;
+        if (FinishedQuestion.Count < Questions.Length)
+        {
+            do
+            {
+                random = UnityEngine.Random.Range(0, Questions.Length);
+            } while (FinishedQuestion.Contains(random) || random == actualQuestion);
+        }
+        return random;
+    }
+
+    void LoadQuestions()
+    {
+        Object[] objs = Resources.LoadAll("Questions", typeof(Question));
+        _questions = new Question[objs.Length];
+        for (int i = 0; i < objs.Length; i++)
+        {
+            _questions[i] = (Question)objs[i];
+        }
+    }
+
+    //High Scores
+    public void DeleteHighScore()
+    {
+        AudioManager.Instance;
+        PlayerPrefs.SetInt(GameUtility.SavePrefKey, 0);
+    }
+
+    private void SetHighScore()
+    {
+        var highScore = PlayerPrefs.GetInt(GameUtility.SavePrefKey);
+        if (highScore < events.ActualFinalScore)
+        {
+            PlayerPrefs.SetInt(GameUtility.SavePrefKey, events.ActualFinalScore);
+        }
+    }
+
+    private void UpdateScore(int add)
+    {
+        events.ActualFinalScore += add;
+        
+        if (events.ActualFinalScore != null)
+        {
+            events.UpdateScore();
+        }
+    }
+
 }

@@ -14,7 +14,7 @@ public class GameEvents : ScriptableObject
     /*It shows the screen that appears to indicate if our answer was correct or incorrect, 
      * the points we won or lost, 
     and the game over screen that has some buttons and the high score.*/
-    public delegate void ShowResultsScreenCallback();
+    public delegate void ShowResultsScreenCallback(UIManager.FinalScreenType type, int score);
     public ShowResultsScreenCallback ShowResultsScreen;
 
     //Update the text with the dots in the UI.

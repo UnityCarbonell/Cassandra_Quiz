@@ -43,11 +43,11 @@ public class GameManager : MonoBehaviour
     //Call the GameEvents
     void OnEnable()
     {
-
+        events.UpdateAnswerToQuestions += UpdateAnswers;
     }
     void OnDisable()
     {
-        
+        events.UpdateAnswerToQuestions -= UpdateAnswers;
     }
 
     //On Start
@@ -156,13 +156,27 @@ public class GameManager : MonoBehaviour
         bool isRight = CheckAnswers();
         FinishedQuestion.Add(actualQuestion);
 
-        //UpdateScore()
+        UpdateScore((isRight) ? Questions[actualQuestion].PlusPoints : -Questions[actualQuestion].PlusPoints);
 
         if (AllFinished)
         {
             SetHighScore();
         }
-        
+
+        var type = (AllFinished) ? UIManager.FinalScreenType.Final : (isRight) ? UIManager.FinalScreenType.Right : UIManager.FinalScreenType.Wrong;
+
+        if (events.ShowResultsScreen != null)
+        {
+            events.ShowResultsScreen(type, Questions[actualQuestion].PlusPoints);
+        }
+
+        AudioManager.Instance.SoundStop("TimerSFX");
+        AudioManager.Instance.SoundPlay((isRight) ? "RightSFX" : "WrongSFX");
+
+        if (type != UIManager.FinalScreenType.Final)
+        {
+
+        }
     }
     //Questions
     Question RandomQuestion()
@@ -199,7 +213,7 @@ public class GameManager : MonoBehaviour
     //High Scores
     public void DeleteHighScore()
     {
-        AudioManager.Instance;
+        AudioManager.Instance.SoundPlay("UISFX");
         PlayerPrefs.SetInt(GameUtility.SavePrefKey, 0);
     }
 

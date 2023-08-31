@@ -12,7 +12,7 @@ public class GameEvents : ScriptableObject
     public UpdateAnswerToQuestionsCallback UpdateAnswerToQuestions;
 
     /*It shows the screen that appears to indicate if our answer was correct or incorrect, 
-     * the points we won or lost, 
+     * the points won or lost, 
     and the game over screen that has some buttons and the high score.*/
     public delegate void ShowResultsScreenCallback(UIManager.FinalScreenType type, int score);
     public ShowResultsScreenCallback ShowResultsScreen;

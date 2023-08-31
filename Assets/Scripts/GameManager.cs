@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
+
      //Show questions in the UI
     void Show()
     {
@@ -145,14 +146,14 @@ public class GameManager : MonoBehaviour
 
         if (question.UseTimer)
         {
-        //    UpdateTimer(question.UseTimer);
+        UpdateTimer(question.UseTimer);
         }
     }
 
     //Control what happens when you click the Next button
     public void Accept()
     {
-        //UpdateTimer(false);
+        UpdateTimer(false);
         bool isRight = CheckAnswers();
         FinishedQuestion.Add(actualQuestion);
 
@@ -175,9 +176,67 @@ public class GameManager : MonoBehaviour
 
         if (type != UIManager.FinalScreenType.Final)
         {
+            StopCoroutine(IE_WaitUntillNextRound);
+        }
+        IE_WaitUntillNextRound = WaitUntillNextRound();
+        StartCoroutine(IE_WaitUntillNextRound);
+    }
 
+    //Timer
+    void UpdateTimer(bool state)
+    {
+        switch (state)
+        {
+            case true:
+                IE_StartTimer = StartTimer();
+                StartCoroutine(IE_StartTimer);
+                timerAnimator.SetInteger(parameterTimerStateHash, 2);
+                break;
+            case false:
+
+                if (IE_StartTimer != null)
+                {
+                    StopCoroutine(IE_StartTimer);
+                }
+
+                timerAnimator.SetInteger(parameterTimerStateHash, 1);
+                break;
         }
     }
+
+    IEnumerator StartTimer()
+    {
+        var totalTime = Questions[actualQuestion].Timer;
+        var leftTime = totalTime;
+        timerText.color = colorTimer;
+
+        while (leftTime > 0)
+        {
+            leftTime--;
+            AudioManager.Instance.SoundPlay("TimerSFX");
+
+            if (leftTime < totalTime / 2 && leftTime > totalTime / 4)
+            {
+                timerText.color = colorHalfTimer;
+            }
+            else if (leftTime < totalTime / 4)
+            {
+                timerText.color = colorTimerRunningOut;
+            }
+
+            timerText.text = leftTime.ToString();
+            yield return new WaitForSeconds(1.0f);
+        }
+        Accept();
+    }
+     
+    //Delay between rounds
+    IEnumerator WaitUntillNextRound()
+    {
+        yield return new WaitForSeconds(GameUtility.FinalWaitTime);
+        Show();
+    }
+
     //Questions
     Question RandomQuestion()
     {
@@ -210,6 +269,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //Game Over UI
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        AudioManager.Instance.SoundPlay("UISFX");
+    }
+
+    public void Menu()
+    {
+        AudioManager.Instance.SoundPlay("UISFX");
+        SceneManager.LoadScene("MENU");
+    }
+
+    public void ExitGame()
+    {
+        AudioManager.Instance.SoundPlay("UISFX");
+        Application.Quit();
+    }
+
     //High Scores
     public void DeleteHighScore()
     {
@@ -230,7 +308,7 @@ public class GameManager : MonoBehaviour
     {
         events.ActualFinalScore += add;
         
-        if (events.ActualFinalScore != null)
+        if (events.UpdateScore != null)
         {
             events.UpdateScore();
         }

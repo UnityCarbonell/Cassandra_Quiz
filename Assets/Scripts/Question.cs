@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[Serializable()]
+//This script contains all the information of the object that works as Question.
 
+//Structure of responses within the Question object
 public struct Answer
 {
     [SerializeField]
@@ -14,6 +15,8 @@ public struct Answer
     private bool _right;
     public bool Right { get { return _right; } }
 }
+
+//Object Structure Question
 [CreateAssetMenu(fileName = "New Question", menuName = "Quiz/new Question")]
 public class Question : ScriptableObject
 {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 //This script contains all the information of the object that works as Question.
 
 //Structure of responses within the Question object

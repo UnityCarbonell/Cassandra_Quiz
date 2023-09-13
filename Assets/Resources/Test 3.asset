@@ -10,10 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfa4ef49cf010f44097c7a3d75b7e2cd, type: 3}
-  m_Name: Test
+  m_Name: Test 3
   m_EditorClassIdentifier: 
-  _info: 
-  _useTimer: 0
-  _timer: 0
-  _answerType: 0
+  _info: Question Test #3
+  _answers:
+  - _info: 
+    _right: 0
+  - _info: Wrong
+    _right: 0
+  - _info: Right
+    _right: 1
+  - _info: Wrong
+    _right: 0
+  _useTimer: 1
+  _timer: 25
+  _answerType: 1
   _plusPoints: 10

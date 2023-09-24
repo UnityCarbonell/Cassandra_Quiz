@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     //Track responses to each question, each question asked, and the current question.
     private List<AnswersData> ChoosenAnswers = new List<AnswersData>();
     private List<int> FinishedQuestion = new List<int>();
-    private int actualQuestion = 0;
+    public int actualQuestion = 0;
 
     //Animations delay
     private IEnumerator IE_WaitUntillNextRound = null;
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         colorTimer = timerText.color;
         LoadQuestions();
 
-        parameterTimerStateHash = Animator.StringToHash("StateFounded");
+        parameterTimerStateHash = Animator.StringToHash("TimerState");
 
         var seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         UnityEngine.Random.InitState(seed);
@@ -176,8 +176,12 @@ public class GameManager : MonoBehaviour
 
         if (type != UIManager.FinalScreenType.Final)
         {
-            StopCoroutine(IE_WaitUntillNextRound);
+            if (IE_WaitUntillNextRound != null)
+            {
+                StopCoroutine(IE_WaitUntillNextRound);
+            }
         }
+
         IE_WaitUntillNextRound = WaitUntillNextRound();
         StartCoroutine(IE_WaitUntillNextRound);
     }
@@ -233,6 +237,8 @@ public class GameManager : MonoBehaviour
     //Delay between rounds
     IEnumerator WaitUntillNextRound()
     {
+        Debug.Log("WaitUntillNextRound has been initiated");
+        
         yield return new WaitForSeconds(GameUtility.FinalWaitTime);
         Show();
     }
@@ -256,6 +262,7 @@ public class GameManager : MonoBehaviour
                 random = UnityEngine.Random.Range(0, Questions.Length);
             } while (FinishedQuestion.Contains(random) || random == actualQuestion);
         }
+
         return random;
     }
 

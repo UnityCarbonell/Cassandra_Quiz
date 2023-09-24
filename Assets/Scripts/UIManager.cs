@@ -100,6 +100,7 @@ public class UIManager : MonoBehaviour
     //Executed on Start
     void Start()
     {
+        UpdateScoreUI();
         finalStateParameterHash = Animator.StringToHash("ScreenState");
     }
 
@@ -121,9 +122,12 @@ public class UIManager : MonoBehaviour
         {
             AnswersData newAnswer = (AnswersData)Instantiate(answerPrefab, uIElements.AnswersContent);
             newAnswer.UpdateData(question.Answers[i].Info, i);
+
             newAnswer.Rect.anchoredPosition = new Vector2(0, offset);
+            
             offset -= (newAnswer.Rect.sizeDelta.y + parameters.Margins);
             uIElements.AnswersContent.sizeDelta = new Vector2(uIElements.AnswersContent.sizeDelta.x, offset * -1);
+            
             actualAnswer.Add(newAnswer);
         }
     }
@@ -174,6 +178,7 @@ public class UIManager : MonoBehaviour
             case FinalScreenType.Final:
                 uIElements.ResultsBG.color = parameters.FinalColorBG;
                 uIElements.ResInfo.text = "GAME OVER";
+
                 StartCoroutine(CalculateScore());
                 uIElements.FinalElementsUI.gameObject.SetActive(true);
                 uIElements.HighScoreTxt.gameObject.SetActive(true);

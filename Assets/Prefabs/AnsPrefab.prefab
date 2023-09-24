@@ -152,7 +152,7 @@ MonoBehaviour:
   toggle: {fileID: 5322824758919808216}
   unchekedToggle: {fileID: 21300000, guid: 42d66b4ed87e755419f148322595effe, type: 3}
   chekedToggle: {fileID: 21300000, guid: a1f8b70cd36c4534ea63d5d906e6f195, type: 3}
-  events: {fileID: 0}
+  events: {fileID: 11400000, guid: 42984ef71cca50c4ca351834c2d21ae9, type: 2}
   Checked: 0
 --- !u!1 &5322824758886917556
 GameObject:

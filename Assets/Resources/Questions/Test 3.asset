@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _info: Question Test #3
   _answers:
-  - _info: 
-    _right: 0
   - _info: Wrong
     _right: 0
   - _info: Right

@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
 
         if (question.UseTimer)
         {
-        UpdateTimer(question.UseTimer);
+            UpdateTimer(question.UseTimer);
         }
     }
 
@@ -211,24 +211,25 @@ public class GameManager : MonoBehaviour
     IEnumerator StartTimer()
     {
         var totalTime = Questions[actualQuestion].Timer;
-        var leftTime = totalTime;
-        timerText.color = colorTimer;
+        var timeLeft = totalTime;
 
-        while (leftTime > 0)
+        timerText.color = colorTimer;
+        while (timeLeft > 0)
         {
-            leftTime--;
+            timeLeft--;
+
             AudioManager.Instance.SoundPlay("TimerSFX");
 
-            if (leftTime < totalTime / 2 && leftTime > totalTime / 4)
+            if (timeLeft < totalTime / 2 && timeLeft > totalTime / 4)
             {
                 timerText.color = colorHalfTimer;
             }
-            else if (leftTime < totalTime / 4)
+            else if (timeLeft < totalTime / 4)
             {
                 timerText.color = colorTimerRunningOut;
             }
 
-            timerText.text = leftTime.ToString();
+            timerText.text = timeLeft.ToString();
             yield return new WaitForSeconds(1.0f);
         }
         Accept();
@@ -236,9 +237,7 @@ public class GameManager : MonoBehaviour
      
     //Delay between rounds
     IEnumerator WaitUntillNextRound()
-    {
-        Debug.Log("WaitUntillNextRound has been initiated");
-        
+    {   
         yield return new WaitForSeconds(GameUtility.FinalWaitTime);
         Show();
     }

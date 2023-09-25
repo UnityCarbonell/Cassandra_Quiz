@@ -16,11 +16,11 @@ MonoBehaviour:
   _answers:
   - _info: Wrong
     _right: 0
-  - _info: Right
+  - _info: Correct
     _right: 1
   - _info: Wrong
     _right: 0
   _useTimer: 1
-  _timer: 25
+  _timer: 15
   _answerType: 1
   _plusPoints: 10

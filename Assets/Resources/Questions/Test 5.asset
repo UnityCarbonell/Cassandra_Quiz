@@ -30,5 +30,5 @@ MonoBehaviour:
     _right: 0
   _useTimer: 0
   _timer: 0
-  _answerType: 0
+  _answerType: 1
   _plusPoints: 10

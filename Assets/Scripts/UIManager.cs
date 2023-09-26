@@ -167,22 +167,22 @@ public class UIManager : MonoBehaviour
         {
             case FinalScreenType.Right:
                 uIElements.ResultsBG.color = parameters.RightColorBG;
-                uIElements.ResInfo.text = "¡GOOD WORK!";
-                uIElements.FinalScore.text = "+" + score;
+                uIElements.ResInfo.text = "GOOD WORK!";
+                uIElements.FinalScore.text = "+" + score + " POINTS";
                 break;
             case FinalScreenType.Wrong:
                 uIElements.ResultsBG.color = parameters.WrongColorBG;
-                uIElements.ResInfo.text = "¡OH NO!";
-                uIElements.FinalScore.text = "-" + score;
+                uIElements.ResInfo.text = "WRONG ANSWER!";
+                uIElements.FinalScore.text = "-" + score + " POINTS";
                 break;
             case FinalScreenType.Final:
                 uIElements.ResultsBG.color = parameters.FinalColorBG;
                 uIElements.ResInfo.text = "GAME OVER";
-
+                uIElements.FinalScore.gameObject.SetActive(false);
                 StartCoroutine(CalculateScore());
                 uIElements.FinalElementsUI.gameObject.SetActive(true);
                 uIElements.HighScoreTxt.gameObject.SetActive(true);
-                uIElements.HighScoreTxt.text = ((hs > events.StartupHighScore) ? "<color=yellow>New </color>" : string.Empty) + "HIGH SCORE: " + hs;
+                uIElements.HighScoreTxt.text = ((hs > events.StartupHighScore) ? "<color=yellow>NEW </color>" : string.Empty) + "HIGH SCORE: " + hs;
                 break;
             default:
                 break;

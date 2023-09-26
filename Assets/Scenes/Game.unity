@@ -1407,8 +1407,8 @@ MonoBehaviour:
     finalElementsUI: {fileID: 133191196}
   parameters:
     margins: 15
-    rightColorBG: {r: 0.2653302, g: 0.7924528, b: 0, a: 0}
-    wrongColorBG: {r: 0.65882355, g: 0, b: 0, a: 0}
+    rightColorBG: {r: 0.2653302, g: 0.7924528, b: 0, a: 1}
+    wrongColorBG: {r: 0.65882355, g: 0, b: 0, a: 1}
     finalColorBG: {r: 0.43137258, g: 0.8313726, b: 0.58431375, a: 1}
 --- !u!114 &701278728
 MonoBehaviour:
@@ -1778,7 +1778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4508527550628706235, guid: 605ca02b54fdcae4294d19dd4579b22f, type: 3}
       propertyPath: m_text
-      value: +10
+      value: placeholder
       objectReference: {fileID: 0}
     - target: {fileID: 4508527550628706235, guid: 605ca02b54fdcae4294d19dd4579b22f, type: 3}
       propertyPath: m_fontSize
@@ -1907,7 +1907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1411953664100875470, guid: 605ca02b54fdcae4294d19dd4579b22f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 25
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1411953664100875470, guid: 605ca02b54fdcae4294d19dd4579b22f, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1927,7 +1927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4508527550628706235, guid: 605ca02b54fdcae4294d19dd4579b22f, type: 3}
       propertyPath: m_text
-      value: 'Score: XXX'
+      value: 'Score:'
       objectReference: {fileID: 0}
     - target: {fileID: 4508527550628706235, guid: 605ca02b54fdcae4294d19dd4579b22f, type: 3}
       propertyPath: m_fontSize
@@ -2465,7 +2465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4508527550628706235, guid: 605ca02b54fdcae4294d19dd4579b22f, type: 3}
       propertyPath: m_text
-      value: RIGHT!
+      value: placeholder
       objectReference: {fileID: 0}
     - target: {fileID: 4508527550628706235, guid: 605ca02b54fdcae4294d19dd4579b22f, type: 3}
       propertyPath: m_fontSize
